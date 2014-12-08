@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html charset="utf-8"><head>
 <meta http-equiv="content-type" content="text/html; charset=windows-1252">
-	<title></title>
+	
+<head>
+  <title>HIV Rate by State</title>
 
 
 <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
-
+<script src="http://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
 <style type="text/css">
 		
 		.bar{
@@ -94,6 +96,13 @@ var data = [
 		width	= 1200 - margins.left - margins.right,
 		height	= 680 - margins.top - margins.bottom;
 
+  // var margin = {top: 50, right: 10, bottom: 90, left: 50},
+  //   width = parseInt(d3.select('#chart').style('width'), 10),
+  //   width = width - margin.left - margin.right,
+  //   barHeight = 20,
+  //   percent = d3.format('%');
+
+
 
 	var svg = d3.select("body")
 		.append("svg")
@@ -154,6 +163,19 @@ var data = [
             .attr("transform", function(d) {
                 return "rotate(-55)" 
                 });
+
+
+            var chart = $("#chart"),
+                aspect = chart.width() / chart.height(),
+                container = chart.parent();
+                
+
+                $(window).on("resize", function() {
+            var targetWidth = container.width();
+                chart.attr("width", targetWidth);
+                chart.attr("height", Math.round(targetWidth / aspect));
+                
+                    }).trigger("resize");
 
 
     // svg.append("g")
