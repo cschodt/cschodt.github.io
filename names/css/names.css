@@ -1,0 +1,214 @@
+h1 {
+  font-size: 2.5em;
+  padding: 0px 0 .3em 0;
+  line-height: 1.2em;
+  color: #333340;
+  margin-bottom: 0px;
+  font-family: "Helvetiva", "Myriad Pro", sans-serif ;
+}
+
+#graph svg{
+    margin: 20px auto;
+    display: block;
+
+    background: #ffa3d1; /* Old browsers */
+background: -moz-linear-gradient(-45deg,  #ffa3d1 10%, #ffffff 48%, #ffffff 50%, #ffffff 52%, #8caedb 90%); /* FF3.6+ */
+background: -webkit-gradient(linear, left top, right bottom, color-stop(10%,#ffa3d1), color-stop(48%,#ffffff), color-stop(50%,#ffffff), color-stop(52%,#ffffff), color-stop(90%,#8caedb)); /* Chrome,Safari4+ */
+background: -webkit-linear-gradient(-45deg,  #ffa3d1 10%,#ffffff 48%,#ffffff 50%,#ffffff 52%,#8caedb 90%); /* Chrome10+,Safari5.1+ */
+background: -o-linear-gradient(-45deg,  #ffa3d1 10%,#ffffff 48%,#ffffff 50%,#ffffff 52%,#8caedb 90%); /* Opera 11.10+ */
+background: -ms-linear-gradient(-45deg,  #ffa3d1 10%,#ffffff 48%,#ffffff 50%,#ffffff 52%,#8caedb 90%); /* IE10+ */
+background: linear-gradient(135deg,  #ffa3d1 10%,#ffffff 48%,#ffffff 50%,#ffffff 52%,#8caedb 90%); /* W3C */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffa3d1', endColorstr='#8caedb',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+
+
+/*
+background: #ed8b8b;
+background: -moz-linear-gradient(-45deg,  #ed8b8b 10%, #ffffff 48%, #ffffff 50%, #ffffff 52%, #79a2d8 90%);
+background: -webkit-gradient(linear, left top, right bottom, color-stop(10%,#ed8b8b), color-stop(48%,#ffffff), color-stop(50%,#ffffff), color-stop(52%,#ffffff), color-stop(90%,#79a2d8));
+background: -webkit-linear-gradient(-45deg,  #ed8b8b 10%,#ffffff 48%,#ffffff 50%,#ffffff 52%,#79a2d8 90%);
+background: -o-linear-gradient(-45deg,  #ed8b8b 10%,#ffffff 48%,#ffffff 50%,#ffffff 52%,#79a2d8 90%);
+background: -ms-linear-gradient(-45deg,  #ed8b8b 10%,#ffffff 48%,#ffffff 50%,#ffffff 52%,#79a2d8 90%);
+background: linear-gradient(135deg,  #ed8b8b 10%,#ffffff 48%,#ffffff 50%,#ffffff 52%,#79a2d8 90%);
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ed8b8b', endColorstr='#79a2d8',GradientType=1 );
+
+*/
+
+
+    background-size: 640px 640px;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+
+
+svg {
+    font: 1em Helvetica;
+}
+
+
+
+
+
+.grid line {
+    stroke: #ccc;
+    stroke-width: .5px;
+    stroke-dasharray: 4, 3;
+}
+.grid line.minor {
+    stroke-width: .3px;
+}
+.axis line {
+    stroke: #000;
+}
+.grid path {
+    display: none;
+}
+#graph svg{
+    margin: 20px auto;
+    display: block;
+  }
+
+#range{
+    position: relative;
+    border:1px solid #aaa;
+    height: 14px;
+    width: 700px;
+    margin: 10px auto;
+  }
+
+#range a{
+      position: absolute;
+      width:18px;
+      height:18px;
+      border: 1px solid #d3d3d3;
+      border-radius: 4px;
+      background: linear-gradient(to bottom, #EEE 0%, #DDD 100%) repeat scroll 0% 0% transparent;
+      z-index:3;
+      top:-3px;
+
+  }
+
+.label {
+    fill: #aaa;
+    
+}
+.label.bold {
+    fill: #000;
+    text-transform: uppercase;
+    font-weight: bold;
+    font-size: .8em;
+    /*letter-spacing: 0.5em;*/
+
+}
+.equalline {
+    fill: none;
+    stroke: #000;
+    stroke-width: 2px;
+}
+
+.year.label {
+    font: 500 90px "Helvetica";
+    fill: #ddd;
+}
+
+
+
+h1 {
+  font-size: 2.5em;
+  padding: 0px 0 .3em 0;
+  line-height: 1.2em;
+  color: #333340;
+  margin-bottom: 0px;
+  font-family: "Helvetiva", "Myriad Pro", sans-serif ;
+}
+
+
+
+ */
+#lead {
+  clear: both;
+/*   width: 600px; */
+}
+
+#lead p {
+  color: #444;
+  font-family: Georgia, Palatino, serif;
+  font-size: 1.0em;
+  line-height: 1.4em;
+}
+
+.chart {
+/*  float: left;
+  padding-right: 5px;
+  padding-bottom: 5px;
+  padding-top:0;
+  padding-left:0;*/
+  margin-right: auto;
+  margin-bottom: -20;
+  margin-top:0;
+  margin-left:auto;
+}
+
+.background {
+  fill: white;
+}
+
+.area {
+  /*fill: #62A9B6;*/
+}
+
+.line {
+  fill: none;
+  stroke: #626563;
+  stroke-width: .2em;
+}
+
+.title {
+  font-size: 18px;
+  font-family: "Helvetiva", "Myriad Pro", sans-serif ;
+}
+
+.axis path {
+  display: none;
+}
+.hidden {
+  display:none;
+  opacity: 0.0;
+}
+
+#button-wrap {
+  width: 310px;
+  margin-left: auto;
+  margin-right: auto;
+  height: 40px;
+  margin-bottom: 10px;
+  padding-left: 5px;
+}
+
+.button {
+  cursor: pointer;
+  float: left;
+  width: 150px;
+  height: 30px;
+  text-align: center;
+  background: #fcfcfc;
+  border: 1px solid #cecece;
+  display: block;
+  padding-top: 4px;
+  padding-bottom: 5px;
+  margin-top: 10px;
+  border-radius: 5px 5px 5px 5px;
+}
+
+.button.active {
+  box-shadow: inset 0px 0px 7px rgba(0,0,0,0.18);
+  pointer-events: none;
+  background-color: #e6e6e6;
+}
+
+#count {
+  border-radius: 5px 0px 0px 5px;
+}
+
+#name {
+  border-radius: 0px 5px 5px 0px;
+}

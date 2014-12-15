@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Gender Shifting Babynames</title>
+<link href="css/names.css" rel="stylesheet">
+<link rel="stylesheet" href="css/bootstrap.min.css"> 
+<!-- <link rel="stylesheet" href="css/style.css"> -->
+<script src="js/libs/modernizr-2.0.6.min.js"></script>
+
+
+</head>
+
+
+<body>
+ 
+
+ <div class="container">
+   
+
+<h1 class="text-center">The Top 100 Gender-Shifted Names Since 1880</h1>
+    <div id="lead">
+      <p>Conventional wisdom suggests that in general, names in the English language tend to move from being considered male-gendered to female. There are some well known examples (Hillary, Clair, Leslie, etc). The graph below shows the relative gender distribution of the 100 names that have had the biggest shifts across the genders from 1880-2013. The data is normalized against the total number of people given that name, and the total number of people of each gender born that year.  
+      </p>
+</br>
+      <p class="text-center" style="margin-bottom:-50px;">
+        Mouseover to scroll through the years, and click on a point to highlight that name.
+
+      </p>
+
+
+<div id="graph"></div>
+
+<!-- <div id="range">
+  <a href="#" title=""></a> -->
+
+
+
+</div>
+</br>
+
+<p>
+  The graphs below show the relative proportion of each of the 100 most-shifted names from 1880 to 2013. "0" shows name that was exclusively given to male babies in that year, and "1" is a name that was exclusively female.  Many traditional names do trend female, and once they approach 100% female, they rarely revert.  However, new names frequently appear as female, and then trend male.
+
+</p>
+
+
+
+ <div id="main">
+      <div id="button-wrap">
+        <div id="count" class="button active">SORT BY RANK</div>
+        <div id="name" class="button">SORT BY NAME</div>
+      </p>   
+      </div>
+      
+      <div id="vis"></div>
+
+
+ </div>
+
+
+Data Source: <a href="http://www.ssa.gov/oact/babynames/limits.html">US Social Security Administration</a>
+</div>
+
+<script src="js/d3.v3.min.js"></script>
+
+
+
+<script>
+
+
+// Chart dimensions.
+var margin = {top: 55, right: 55, bottom: 55, left: 55},
+    width  = 750 - margin.right - margin.left,
+    height = 750 - margin.top - margin.bottom;
+
+//The scales to fit into a nice log 1-10
+var fitScaleY = d3.scale.log()
+      .range([0,height])
+      .domain([0.00000236610899055165, 0.0292709850746587 ])
+      .clamp(true);
+      
+var fitScaleX = d3.scale.log()
+      .range([width, 0])
+      .domain([0.00000226066763845233, 0.00392712513946298 ])
+      .clamp(true);
+
+// Log scales, which use base 10. 
+var xScale = d3.scale.log()
+      .range([0, width])
+      .clamp(true)
+      .nice();
+var yScale = d3.scale.log()
+      .range([height, 0])
+      .clamp(true)
+      .nice();
+
+// var colorMale = d3.scale.log()
+//     .rangeRound([25, 255])
+//     .domain([0.00000226066763845233, 0.00392712513946298 ])
+//     .clamp(true)
+//     .nice();
+
+// var colorFemale = d3.scale.log()
+//     .rangeRound([25, 255])
+//     .domain([0.00000236610899055165, 0.0292709850746587 ])
+//     .clamp(true)
+//     .nice();
+
+// var colorScale = d3.scale.category10();
+var currYear;
+
+var xAxis = d3.svg.axis()
+    .orient("bottom")
+    .scale(xScale)
+    .tickSize(-height)
+    .tickPadding(7);
+ 
+    
+var yAxis = d3.svg.axis()
+    .orient("left")
+    .scale(yScale)
+    .tickSize(-width)
+    .tickPadding(5);
+
+
+// Create the SVG container and set the origin.
+var svg = d3.select("#graph").append("svg")
+    .attr("width",   width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+    .append("g")
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+
+// Add x-axis.
+svg.append("g")
+    .attr("class", "x grid")
+    .attr("transform", "translate(0," + height + ")")
+    .call(xAxis)
+    .selectAll("text")
+    .style("text-anchor", "end")
+    .attr("x", -5)
+    .attr("y", - 8)
+    .attr("transform", "rotate(-90)");
+ 
+// Add the y-axis.
+svg.append("g")
+    .attr("class", "y grid")
+    .call(yAxis);
+
+/**** Format tick marks here. Not sure what data is showing ****/
+
+svg.selectAll(".grid text")
+    .text(function(d) { return d3.format(".3%")(d/100000); });//divide for percentage? 
+    
+
+
+
+
+// Equal pay line
+svg.append("line")
+    .attr("class", "equalline")
+    .attr("x1", 0)
+    .attr("x2", width)
+    .attr("y1", height)
+    .attr("y2", 0);
+
+
+// Add an x-axis label.
+svg.append("text")
+    .attr("class", "x label bold")
+    // .attr("class", "axis-label")
+    .attr("text-anchor", "end")
+    .attr("x", width-5)
+    .attr("y", height - 5)
+    
+    .text("Name Given to More Males") ;
+   
+
+
+// Add equal line label.    
+svg.append("text")
+    .attr("class", "label bold")
+    .attr("text-anchor", "middle")
+    .attr("x", 0)
+    .attr("y", 10)
+    .attr("dy", "100px")
+    .attr("transform", "rotate(-45) translate(265, 335)")
+    .text("Equal Distribution"+"  \u00A0 \u00A0 \u00A0 \u00A0 " +" More Popular \u2192");   
+
+// Add a y-axis label.
+svg.append("text")
+    .attr("class", "y label bold")
+    // .attr("class", "axis-label")
+    .attr("text-anchor", "end")
+    .attr("x", -10)
+    .attr("y", -3)
+    .attr("transform", "translate(15,0)rotate(-90)")
+    .text("Name Given to More Females");
+
+// Add the year label; the value is set on transition.
+var label = svg.append("text")
+    .attr("class", "year label")
+    .attr("text-anchor", "end")
+    .attr("y", height-24 )
+    .attr("x", width )
+    .text("1880");
+
+
+
+d3.select("#range a")
+  .on("dragstart", function(d){
+      
+
+
+  });
+
+
+// Load the nameData data.
+d3.json("data/names100.json", function(data) {
+  
+
+  //year scale, used for mouseover
+  var yearScale = d3.scale.linear()
+      .domain([margin.left, width + margin.right])
+      .rangeRound([1880, 2013])
+      .clamp(true)
+      .nice();
+
+  //array of years in our range.
+  //currYear = [1880, 1881, 1882, 1883];
+  currYear = d3.range(1880, 2012);
+
+  //global vars to use for domains
+  var totalPropX = [], totalPropY = [];
+
+  //Convert data to fill in missing years with blanks
+  data.forEach(function(d){
+
+    var newX = [],
+        newY = [],
+        yrsX = d.propX.map(function(d){ return d[0]; }),
+        yrsY = d.propY.map(function(d){ return d[0]; });
+
+    //totalPropX.push.apply(totalPropX, d.propX.map(function(d){ return d[1]; }));
+    //totalPropY.push.apply(totalPropY, d.propY.map(function(d){ return d[1]; }));
+
+    currYear.forEach(function(j, i){
+
+      //does this name have current year? If not, just add year with zero value
+      if(yrsX.indexOf(j) != -1){
+        newX.push([j, d.propX[yrsX.indexOf(j)][1]]);
+      } else {
+        newX.push([j, 0]);//add year with zero value
+      }
+      if(yrsY.indexOf(j) != -1){
+        newY.push([j, d.propY[yrsY.indexOf(j)][1]]);
+      } else {
+        newY.push([j, 0]);//add year with zero value
+      }
+    })
+
+    d.propX = newX.slice(0);
+    d.propY = newY.slice(0);
+
+  });
+
+  //we manually set our scales, so comment these out
+  //fitScaleX.domain([0, d3.max(totalPropX)]);
+  //fitScaleY.domain([0, d3.max(totalPropY)]);
+
+  //X = female, Y = male
+
+  //add groupings for dots and text
+  var dots = svg.selectAll(".dot")
+    .data(data)
+    .enter()
+    .append("g")
+    .attr("class", "pointys")
+    .on("click", sizeClick)
+    .attr("transform", function(d){
+      return "translate(" + fitScaleY(d.propY[0][1]) + "," + fitScaleX(d.propX[0][1]) + ")";
+    });
+
+
+  //circles (positioned by grouping above)
+  dots.append("circle")
+    .attr("id", "points")
+    .attr("cx", 0 )
+    .attr("cy", 0 )
+    .attr("r", 5)
+    .style("fill", "#626563"
+      
+
+
+
+
+        //set initial colors
+    //   return "rgb(" + colorFemale(d.propX[0][1]) + ",50," + colorMale(d.propY[0][1]) + ")";
+    );
+
+  //append text labels
+  dots.append("text")
+    .attr("x", 0)
+    .attr("y", 14)
+    .attr("text-anchor", "middle")
+    .text(function(d){ return d.name; });
+
+
+
+  //as user moves mouse over svg
+  d3.select("svg")
+    .on("mousemove", changeValues)
+    .on("drag", function(d){
+      d3.event.sourceEvent.stopPropagation();
+      changeValues(d);
+    });
+
+    d3.select("circles")
+
+
+
+
+
+
+//change size when selected
+
+    function sizeClick() {
+
+
+    d3.selectAll("circle").transition()
+         .duration(250)
+         .attr("r", 5)
+         .style("fill", "#C2B6CF")
+         .style("opacity", ".6")
+         .style("stroke", "#626563");
+    d3.selectAll(".pointys").selectAll("text").transition()
+          .attr("x", 0)
+          .attr("y", 14)
+          // .style("fill", "black")
+          .style("stroke", "black")
+          .style("fill", "black")
+          .style("stroke-width", "0px")
+          .style("font", "11px Helvetica");
+
+    d3.select(this).select("circle").transition()
+        .duration(750)
+        .attr("r", 20)
+        .style("fill", "orange")
+        .style("stroke", "#BA4700");
+        d3.select(this).select("text").transition()
+        .duration(750)
+        .attr("x", 1)
+        .attr("y", 35)
+        .style("fill", "steelblue")
+        .style("stroke", "blue")
+        .style("stroke-width", ".5px")
+        .style("font", "20px Serif");
+
+
+
+    }
+
+
+
+
+
+  function changeValues(d){
+
+        //get current year from yearScale
+        var newYearIndex = currYear.indexOf(yearScale(d3.mouse(this)[0]));
+
+        label.text(yearScale(d3.mouse(this)[0]))
+
+        //move dots to new location
+
+        dots.transition().duration(150).attr("transform", function(d){
+          return "translate(" + fitScaleY(d.propY[newYearIndex][1]) + "," + fitScaleX(d.propX[newYearIndex][1]) + ")";
+        });
+
+        //set rgb(255,255,255) colors where the "R" uses colorFemale() scale, and "B" using colorMale() scale.
+        //colors closer to male will have a higher number in blue, and female higher colors in red
+        // dots.selectAll("circle")
+        //   .style("fill", function(d){
+        //     return "rgb(" + colorFemale(d.propX[newYearIndex][1]) + ",50," + colorMale(d.propY[newYearIndex][1]) + ")";
+          // })
+
+    }
+
+});
+</script>
+
+
+  <script src="js/libs/jquery-1.11.1.min.js"></script>
+  <script src="src/bootstrap.min.js"></script>
+  <script src="js/libs/coffee-script.js"></script>
+  <script src="js/libs/isotope.pkgd.min.js"></script>
+  <script src="js/libs/queue.min.js"></script>
+  <script type="text/coffeescript" src="coffee/small_multiples.coffee"></script>
+
+</script>
+
+  <script type="text/javascript">
+    $(document).ready(function() {
+    });
+  </script>
+
+</body>
+</html>
