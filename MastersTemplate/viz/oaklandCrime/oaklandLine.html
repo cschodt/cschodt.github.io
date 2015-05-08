@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title></title>
+    <style>
+        body {
+            font: 10px sans-serif;
+        }
+        
+        .axis path,
+        .axis line {
+            fill: none;
+            stroke: #000;
+            shape-rendering: crispEdges;
+        }
+        
+        .x.axis path {}
+        
+        .line {
+            fill: none;
+            stroke: steelblue;
+            stroke-width: 1.5px;
+        }
+        #annotation1{
+            position: absolute;
+            top:200px;
+            left:800px;
+        }
+        
+         .tooltip{
+            opacity: 1;
+            position: absolute;
+            top:0;
+            left:100px;
+            -webkit-transform: translate(-50%,0);
+                    transform: translate(-50%,0);
+            z-index: 9999;
+            border: 1px solid black;
+            box-shadow: 0px 0px 5px 0px #ccc;
+            padding: 10px;
+            background-color:white;
+            pointer-events:none;
+        }
+        .tooltip:after{
+            top:100%;
+            left:50%;
+            border:solid transparent;
+            content: " ";
+            height: 0;
+            width: 0;
+            position: absolute;
+            border-top-color:black;
+            pointer-events:none;
+            border-width: 10px;
+            margin-left:-10px;
+        }
+        .tooltip:before{
+            top:100%;
+            left:50%;
+            border:solid transparent;
+            content: " ";
+            height: 0;
+            width: 0;
+            position: absolute;
+            z-index: 99999;
+            border-top-color:white;
+            pointer-events:none;
+            border-width: 9px;
+            margin-left:-9px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="annotation1">
+        Noster ne se quid ingeniis ut fore ne ab sint cernantur, admodum irure sunt do 
+        eram, quis comprehenderit fabulas elit admodum. Ita nescius ubi deserunt an e 
+        ita velit cernantur.
+    </div>
+    <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+    <script type="text/javascript">
+        var margin = {
+                top: 50,
+                right: 20,
+                bottom: 70,
+                left: 70
+            },
+            width = 900,
+            height = 600;
+
+        var parseDate = d3.time.format("%Y").parse;
+
+        var x = d3.time.scale()
+            .range([0, width]);
+
+        var y = d3.scale.linear()
+            .range([height, 0]);
+
+        var xAxis = d3.svg.axis()
+            .scale(x)
+            .orient("bottom");
+
+        var yAxis = d3.svg.axis()
+            .scale(y)
+            .orient("left");
+
+        var line = d3.svg.line()
+            .x(function (d) {
+                return x(d.year);
+            })
+            .y(function (d) {
+                return y(d.cellcrime);
+            })
+            //.interpolate("basis");
+
+        var line2 = d3.svg.line()
+            .x(function (d) {
+                return x(d.year);
+            })
+            .y(function (d) {
+                return y(d.robberies);
+            })
+            //.interpolate("basis");
+
+
+        var svg = d3.select("body").append("svg")
+            .attr("width", width + margin.left + margin.right)
+            .attr("height", height + margin.top + margin.bottom)
+            .append("g")
+            .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+        svg.append("rect")
+            .attr("width", "100%")
+            .attr("height", "83%")
+            .attr("fill", "#B2A5A8");
+
+        d3.csv("oakland.csv", function (error, data) {
+
+
+            data.forEach(function (d) {
+
+                d.year = parseDate(d.year); //parseDate(d.year);
+                d.cellcrime = +d.cellcrime;
+                d.robberies = +d.robberies;
+
+            });
+
+            //console.log(data);
+            
+            x.domain(d3.extent(data, function (d) {
+                return d.year;
+            }));
+            y.domain([0, d3.max(data, function(d) { return d.robberies; })]);
+
+            svg.append("g")
+                .attr("class", "x axis")
+                .attr("transform", "translate(0," + height + ")")
+                .call(xAxis);
+
+            svg.append("g")
+                .attr("class", "y axis")
+                .call(yAxis)
+                .append("text")
+                .attr("transform", "rotate(-90)")
+                .attr("y", 6)
+                .attr("dy", ".71em")
+                .style("text-anchor", "end")
+                .text("Cell Phone Thefts");
+
+            svg.append("path")
+                .datum(data)
+                .attr("class", "line")
+                .attr("d", line)
+                .style({
+                    "stroke": "#0EB2AF",
+                    "stroke-width": "5px",
+                    "fill": "none"
+                })
+                .append("text")
+
+            svg.append("path")
+                .datum(data)
+                .attr("class", "line2")
+                .attr("d", line2)
+                .style({
+                    "stroke": "#FFCD00",
+                    "stroke-width": "5px",
+                    "fill": "none"
+                });
+            
+            
+//                .on("mouseover", function(elm, i){
+//                    //console.log(elm, i);
+//                
+//                    var mouseX = d3.mouse(this)[0];
+//                    var mouseY = d3.mouse(this)[1];
+//                    
+//                    console.log(mouseX, mouseY);
+//                    
+//                    d3.select("body")
+//                        .append("div")
+//                        .attr("class", "tooltip")
+//                        .style({"left": (mouseX + margin.left + 5) + "px", "top": (mouseY + 5) + "px"})
+//                        .text("Hello Mom");
+//                
+//                })
+            
+            
+            svg.selectAll(".point")
+                .data(data)
+                .enter()
+                .append("circle")
+                .attr("cx", function(d){ return x(d.year); })
+                .attr("cy", function(d){ return y(d.robberies); })
+                .attr("r", 5)
+                .attr("fill", "#333")
+                .on("mouseover", function(d, i){
+                
+                    var currentDot = d3.select(this);
+                
+                    console.log(data[i]);
+                
+                    d3.select("body")
+                        .append("div")
+                        .attr("class", "tooltip")
+                        .style({"left": (currentDot.attr("cx") + margin.left) + "px", "top": currentDot.attr("cy") + "px"})
+                        .text(data[i].robberies);
+                
+                })
+                .on("mouseout", function(){
+                    d3.selectAll(".tooltip").remove();
+                })
+            
+            
+            //console.log(  x(parseDate("2013"))   );
+
+        });
+    </script>
+</body>
+
+</html>

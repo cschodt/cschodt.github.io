@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Bar Bubble Graph Example</title>
+	<style>
+    .axis text{
+      font-family: Helvetica, Arial, sans-serif;
+      font-size: 11px;
+      text-anchor: end;
+    }
+    .bubbletext{
+    	font-family: Helvetica, Arial, sans-serif;
+    	font-size:18px;
+    	font-weight: normal;
+    }
+    .diagonal-labels{
+    	font-family: Helvetica, Arial, sans-serif;
+    	font-size:11px;
+    }
+    .axis path{
+      fill:none;
+      stroke:black;
+      stroke-width: 0.5px;
+      shape-rendering: crispEdges;
+    }
+    .stem{
+        stroke: none;
+        fill: #333136;
+    }
+    .textlabel{
+        font-family: Helvetica, Arial, sans-serif;
+        font-size:14px;
+        text-anchor: middle;
+    }
+    .bubble{
+    	fill:#0EB2AF;
+    	stroke:#DADBD7;
+    	stroke-width:2px;
+    }
+    .axis {
+		shape-rendering: crispEdges;
+	}
+	.y.axis path{
+		display: none;
+	}
+	.x.axis path{
+		stroke: black;
+		stroke-width: 1px;
+	}
+
+	.axis .minor line {
+		stroke: #777;
+      	opacity:0.5;
+      	stroke-dasharray: 2,2;
+	}
+</style>
+</head>
+<body>
+
+
+<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+<script>
+var data = 
+    
+[
+{"Country":"USA","CODE":"USA","USD":820.00,"Days":5.6},
+{"Country":"Australia","CODE":"AUS","USD":884.58,"Days":4.7},
+{"Country":"China","CODE":"CHN","USD":981.06,"Days":51.9},
+{"Country":"Hong Kong","CODE":"HKG","USD":824.26,"Days":7.8},
+{"Country":"Indonesia","CODE":"IDN","USD":956.68,"Days":99.1},
+{"Country":"Japan","CODE":"JPN","USD":893.7,"Days":8.3},
+{"Country":"Korea","CODE":"KOR","USD":904.8,"Days":12.5},
+{"Country":"Malaysia","CODE":"MYS","USD":860.28,"Days":29.4},
+{"Country":"Phillipines","CODE":"PHL","USD":948.82,"Days":123.5},
+{"Country":"Singapore","CODE":"SGP","USD":850.11,"Days":5.5},
+{"Country":"Thailand","CODE":"THA","USD":891.39,"Days":55.5},
+{"Country":"Vietnam","CODE":"VNM","USD":964,"Days":181.6},
+{"Country":"Germany","CODE":"DEU","USD":857.6,"Days":6.7},
+{"Country":"Spain","CODE":"ESP","USD":857.6,"Days":10.3},
+{"Country":"France","CODE":"FRA","USD":878.95,"Days":7.4},
+{"Country":"Hungary","CODE":"HUN","USD":1032.5,"Days":27.6},
+{"Country":"Italy","CODE":"ITA","USD":900.62,"Days":9.1},
+{"Country":"Luxemborg","CODE":"LUX","USD":829.34,"Days":2.7},
+{"Country":"Netherlands","CODE":"NLD","USD":857.6,"Days":6.1},
+{"Country":"Norway","CODE":"NOR","USD":962.7,"Days":3.4},
+{"Country":"Poland","CODE":"POL","USD":995.69,"Days":26.3},
+{"Country":"Russia","CODE":"RUS","USD":1039.34,"Days":25.6},
+{"Country":"Finland","CODE":"FIN","USD":857.6,"Days":6.3},
+{"Country":"Sweden","CODE":"SWE","USD":986.18,"Days":5.9},
+{"Country":"Turkey","CODE":"TUR","USD":1054.38,"Days":34.6},
+{"Country":"UK","CODE":"GBR","USD":921.36,"Days":7.9},
+{"Country":"UAE","CODE":"ARE","USD":816.47,"Days":6.8},
+{"Country":"Brazil","CODE":"BRA","USD":1285.59,"Days":41.3},
+{"Country":"Canada","CODE":"CAN","USD":789.89,"Days":5.5},
+{"Country":"Mexico","CODE":"MEX","USD":904.395,"Days":31.6}
+]
+    
+//    [
+//	{name: "Apples", value: 20},
+//	{name: "Oranges", value: 8},
+//	{name: "Cherries", value: 18},
+//	{name: "Bananas", value: 29},
+//	{name: "Peaches", value: 18},
+//	{name: "Pears", value: 15},
+//	{name: "Avocados", value: 20},
+//	{name: "Watermelons", value: 10},
+//];
+
+//optionally sort data
+data = data.sort(function(a,b){ return b.USD - a.USD;});
+
+var margin = {top:0, right:0, bottom:20, left:50},
+    width  = 900,
+    height = 600;
+
+var svg = d3.select("body")
+    .append("svg")
+    .attr("width", width)
+    .attr("height", height)
+    // change for responsive
+    // .attr("width", "100%")
+    // .attr("height", "100%")
+    // .attr("viewBox", "0 0 " + width + " " + height);
+
+var yScale = d3.scale.linear()
+    .range([height - margin.top - margin.bottom, 30]);
+
+var bScale = d3.scale.linear()
+	.range([2, width / (data.length)]);
+
+var xScale = d3.scale.ordinal()
+    .rangeRoundBands([0, width - margin.right - margin.left], .1);
+
+var xAxis = d3.svg.axis()
+    .scale(xScale)
+    .orient("bottom")
+    .outerTickSize(0)
+    .tickValues([]);//empty for no labels
+
+var yAxis = d3.svg.axis()
+    .scale(yScale)
+    .orient("left")
+    .tickSize(-width - margin.left);
+
+//yscale's domain is from zero to the maximum "name" in your data
+yScale.domain([d3.min(data, function(d){ return d["USD"]; }) -50, d3.max(data, function(d){ return d["USD"]; })]);
+
+//xscale is unique values in your data ("name", since they are all different)
+xScale.domain(data.map(function(d){ return d["Country"]; }));
+
+//for the bubble scale
+bScale.domain([0, d3.max(data, function(d){ return d["Days"]; })]);
+
+
+//adding y axis to the left of the chart
+svg.append("g")
+    .attr("class", "y axis")
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+    .call(yAxis)
+    .selectAll("g")
+    .filter(function(d) { return d; })
+    .classed("minor", true);
+
+//adding x axis to the bottom of chart
+svg.append("g")
+    .attr("class", "x axis")
+    .attr("transform", "translate(" + margin.left + "," + (height - margin.bottom) + ")")
+    .call(xAxis);
+
+var chart = svg.append("g")
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+    .selectAll(".stem")
+    .data(data)
+    .enter();
+
+//append each stem
+chart.append("rect")
+    .attr("class", "stem")
+    .attr("x", function(d){ return xScale(d["Country"]) + (xScale.rangeBand() / 2); })
+    .attr("y", function(d){ return yScale(d["USD"]); })
+    .attr("height", function(d){ return height - margin.top - margin.bottom - yScale(d["USD"]); })
+    .attr("width", 2);
+
+//append the circles
+chart.append("circle")
+	.attr("class", "bubble")
+	.attr("cx", function(d){ return xScale(d["Country"]) + (xScale.rangeBand() / 2); })
+	.attr("cy", function(d){ return yScale(d["USD"]); })
+	.attr("r", function(d){ return bScale(d["Days"]); });
+
+//append text to the circles
+chart.append("text")
+	.attr("class", "bubbletext")
+	.attr("x", function(d){ return xScale(d["Country"]) + (xScale.rangeBand() / 2); })
+	.attr("y", function(d){ return yScale(d["USD"]) + 6; })//change number  to adjust verticle text inside bubble
+	.attr("text-anchor", "middle")
+	.text(function(d){ return Math.round(d["Days"]);});
+
+//append diagnol text labels to circles
+chart.append("text")
+	.attr("class", "diagonal-labels")
+	.attr("x", function(d){ return xScale(d["Country"]) + (xScale.rangeBand() / 2) + bScale(d["Days"]) + 3; })
+	.attr("y", function(d){ return yScale(d["USD"]) + 6; })
+	.attr("text-anchor", "start")
+	.attr("transform", function(d){ return "rotate(-40 " +  Number(xScale(d["Country"]) + (xScale.rangeBand() / 2)) + " " + yScale(d["USD"]) + ")"; })
+	.text(function(d){ return d["Country"];});
+
+
+</script>
+</body>
+</html>

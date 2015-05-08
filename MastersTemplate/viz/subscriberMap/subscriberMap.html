@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Subscribers by Country and Year</title>
+    <style type="text/css">
+    body{
+        background: #c2dee7;
+    }
+    path{
+        stroke: white;
+        stroke-width: 1px;
+        fill: #d5eee4;
+    }
+
+    .one{
+        fill: #d5eee4;
+    }
+    .two{
+        fill: #c0e9e1;
+    }
+    .three{
+        fill: #a6e4dd;
+    }
+    .four{
+        fill: #87ddd9;
+    }
+    .five{
+        fill: #67d6d4;
+    }     
+    .six{
+        fill: #45cdce;
+    }      
+    .seven{
+        fill: #28c4c5;
+    }       
+    .eight{
+        fill: #15bbbc;
+    }      
+    .nine{
+        fill: #0eb3b0;
+    }
+    .ten{
+        fill: #13ada6;
+    }
+    .eleven{
+        fill: #1fa79a;
+    }
+    .twelve{
+        fill: #30a28d;
+    }
+    .thirteen{
+        fill: #469c7e;
+    }
+    .fourteen{
+        fill: #5f966f;
+    }
+    .fifteen{
+        fill: #7a9160;
+    }
+    .sixteen{
+        fill: #938b52;
+    }
+    .seventeen{
+        fill: #ab8644;
+    }
+    .eighteen{
+        fill: #c28138;
+    }
+    .nineteen{
+        fill: #d67b2c;
+    }
+    .twenty{
+        fill: #e87621;
+    }
+    .twentyone{
+        fill: #f57118;
+    }
+    .twentytwo{
+        fill: #fe6a10;
+    }
+    .twentythree{
+        fill: #ff5c04;
+    }
+    .twentyfour{
+        fill: #f34a00;
+    }
+    .twentyfive{
+        fill: #d53600 ;
+    }
+      
+        
+        
+    
+    </style>
+</head>
+<body>
+
+
+<script src="js/d3.v3.min.js"></script>
+<script src="js/queue.v1.min.js"></script>
+<script src="js/topojson.v1.min.js"></script>
+<script src="js/d3.geo.projection.v0.min.js"></script>
+<script>
+    var margin = {top:10, right:10, bottom:10, left:10},
+        width  = 800 - margin.left - margin.right,
+        height = 600 - margin.top  - margin.bottom;
+
+    var projection = d3.geo.naturalEarth()
+        .scale(170)
+        .translate([width / 2, height / 2]);
+
+    //Quantize is a scale that puts a domain (data) into buckets (range)
+    //when calling quantize(5) it will return "medium"
+    var quantize = d3.scale.quantize()
+        .domain([0, 150])
+        .range(["one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen", "seventeen", "eighteen", "nineteen", "twenty", "twentyone", "twentytwo", "twentythree", "twentyfour", "twentyfive" ]);
+
+
+
+    var path = d3.geo.path()
+        .projection(projection);
+
+    var svg = d3.select("body")
+        .append("svg")
+        .attr("width", "100%")
+        .attr("height", "100%")
+        .attr("viewBox", "0 0 " + width + " " + height);
+
+    //cellRates variable
+    var cellRates = {};
+
+
+queue(2)
+    .defer(d3.json, "countries.topojson")
+    .defer(d3.json, "mobileSubscribers.json")
+    .await(ready);
+
+
+function ready(error, countries, mobileSubscribers){
+    
+
+    cellRates = mobileSubscribers;
+
+
+    //draw world map
+    var countriesSVG = svg.selectAll("path")
+        .data(topojson.feature(countries, countries.objects.countries).features)
+        .enter()
+        .append("path")
+        .attr("d", path)
+        .attr("class", function(d){ return d.id; });
+
+    //position year
+    var year = svg.append("text")
+        .attr("x", 50)
+        .attr("y", 400)
+        .attr("width", 300)
+        .attr("height", 200)
+        .style({"font-size":"50px", "font-family":"FUTURA"})
+        .text("1981");
+
+    //starting year
+    var currentYear = 1981;
+
+    //set an interval to call for changing color
+    
+    var paused = false;
+    
+    var stepper = setInterval(function(){
+        
+        
+        if(!paused){
+
+            countriesSVG.attr("class", function(d){
+
+
+
+                //variable to hold color
+                var color = "";
+
+
+                //make sure our map has the 
+                if(d.id in cellRates){
+                    color = quantize(+cellRates[d.id][currentYear]); //CHANGE SAMPLE DATA to cellRates!
+                }
+
+
+
+                return d.id + " " + color;
+
+            });
+
+            year.text(currentYear);
+
+            //increment currentyear
+            currentYear++
+
+            //reset currentyear when it reaches a maximum
+            if(currentYear == 2014){
+                currentYear = 1981;
+                paused = true;
+                //clearInterval(stepper);
+            }
+        } else {
+            setTimeout(function(){ paused = false; }, 5000);//stop for five seconds
+        }
+        
+    }, 1000);//number of milleseconds to wait
+
+
+}
+
+
+
+
+
+</script>
+</body>
+</html>
