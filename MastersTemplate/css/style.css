@@ -1,0 +1,133 @@
+
+#introDiv {
+
+    padding-top:10vh;
+    
+}
+#counterTitleTop{
+    margin-top:26vh;
+    font-size:5vw;
+    
+
+}
+
+#counterdiv1{
+    position: relative;
+    
+}
+
+#mainCounter{
+    position: absolute;
+    top:-40%;
+    font-size:33vw;
+    font-family:lato;
+    color:0EB2AF;
+}
+
+#counterTitleBottom{
+    font-size:5vw;
+    margin-bottom:10vh;
+    
+}
+
+#title{
+    font-size:8em;
+    font-size:13vw;
+    margin-bottom: 15vh;
+    
+}
+#subtitle{
+    font-size:4em;
+    font-size:6vw;
+    margin-bottom: 10vh;
+    color:#FFCD00;
+    
+}
+
+#trailer{
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 10000;
+}
+
+
+#phoneloop{
+    width:102.2%;
+    height: auto;
+    margin-left: -15px;
+}
+.theftheader{
+  /*position:absolute*/         
+    bottom: -50px;             
+    text-align:center;
+    width:100%;
+}
+.bodycounter {
+    width:100%;
+    text-align:center;
+    font-size: 10em;
+    font-size: 20vw;
+}
+
+
+
+.navbar {
+    
+    
+}
+
+.spacer{
+    
+    Margin-top:20px;
+}
+
+.sideicon {
+    
+/*
+    position:fixed;
+    top:100px;
+    width:40%;
+    right:10px;
+*/
+}
+
+p.quote {
+    font-size: 40px;
+    
+}
+
+.scrollquote{
+    font-size: 3em;
+    font-family: serif;
+    font-style: italic
+    
+}
+
+body{
+    
+    padding-top: 50px;
+    background-color: #333136;
+}
+
+h1 {
+    font-size: 6em;
+}
+
+h2{
+    font-size: 3em;
+}
+
+p{
+    
+    font-size: 1.3em;
+}
+
+h1, h2, h3, p{  
+    color:#DADBD7;   
+}
+
+h1, h2, h3 {
+    text-align: center;
+}
+
