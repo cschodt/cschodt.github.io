@@ -1,77 +1,168 @@
+@font-face {
+    font-family: 'hacker';
+    src: url('../fonts/hacker.woff2') format('woff2'), url('../fonts/hacker.woff') format('woff');
+}
+
+body {
+    background-color: #333136;
+    overflow-x: hidden;
+    padding-top: 50px;
+}
+
+.brightness {
+    background-color: white;
+    display: inline-block;
+}
+
+.brightness img {
+    opacity: 1;
+    -webkit-transition: opacity .25s ease-in-out;
+    transition: opacity .25s ease-in-out;
+}
+
+.brightness img:hover {
+    cursor: pointer;
+    opacity: .5;
+}
+
 #introDiv {
     padding-top: 10vh;
 }
 
-#counterTitleTop {
-    margin-top: 26vh;
-    font-size: 5vw;
+#skip_button {
+    bottom: 35px;
+    cursor: pointer;
+    font-size: 3em;
+    font-size: 7.5vw;
+    left: 50%;
+    position: fixed;
+    text-align: center;
+    -webkit-transform: translateX(-50%);
+    -ms-transform: translateX(-50%);
+    transform: translateX(-50%);
+    z-index: 10001;
 }
 
-#counterdiv1 {
-    position: relative;
+#counterDiv {
+    margin-bottom: 30vh;
+    margin-top: 48vh;
+}
+
+.counterTitle {
+    font-size: 4vw;
 }
 
 #mainCounter {
-    position: absolute;
-    top: -40%;
-    font-size: 33vw;
-    font-family: lato;
-    color: #B2A5A8;
-}
-
-#counterTitleBottom {
-    font-size: 5vw;
-    margin-bottom: 10vh;
-}
-
-#title {
-    font-size: 8em;
-    font-size: 13vw;
-    margin-bottom: 15vh;
-}
-
-#subtitle {
-    font-size: 4em;
-    font-size: 6vw;
-    margin-bottom: 10vh;
     color: #FFCD00;
 }
 
+#mainTitle {
+    font-size: 10em;
+    font-size: 12vw;
+    margin-bottom: 2vh;
+}
+
+#subtitle {
+    color: #FFCD00;
+    font-family: freight-sans-pro, georgia, serif;
+    font-size: 3em;
+    font-size: 3.5vw;
+    margin-bottom: 16vh;
+}
+
 #trailer {
+    background: #aaa;
+    height: 100%;
+    left: 0;
     position: fixed;
     top: 0;
-    left: 0;
+    width: 100%;
     z-index: 10000;
 }
 
-#phoneloop {
+.SVG {
+    height: 50vh;
     width: 100%;
-    height: auto;
 }
 
-.theftheader {
-    /*position:absolute*/
+.menutext {
+    font-family: europa, futura, tahoma, sans-serif;
+    font-size: 1.2em;
+}
+
+.navtext {
+    font-family: europa, futura, tahoma, sans-serif;
+    font-size: 1.2em;
+}
+
+.navbar-default .navbar-nav>li>a {
+    color: white;
+}
+
+.navbar-default {
+    background-color: #4D4A51;
+    border-width: 0;
+}
+
+.navbar-default .navbar-nav>li>a:focus,
+.navbar-default .navbar-nav>li>a:hover {
+    color: #FFCD00;
+}
+/*
+.navbar-default .navbar-nav>.active>a,
+.navbar-default .navbar-nav>.active>a:focus,
+.navbar-default .navbar-nav>.active>a:hover {
+    color:#FFCD00;
+    background-color: #DADBD7;
     
-    bottom: -50px;
+}
+*/
+
+.center {
+    left: 50%;
+    position: relative;
+    top: 50%;
+    -webkit-transform: translate(-50%);
+    -ms-transform: translate(-50%);
+    transform: translate(-50%);
+}
+
+.header {
+    position: relative;
     text-align: center;
-    width: 100%;
+}
+
+.headerTitle {
+    color: rgb(218, 219, 215);
+    color: rgba(218, 219, 215, .9);
+    font-size: 6em;
+    font-size: 12vw;
+    left: 50%;
+    position: absolute;
+    top: 35%;
+    -webkit-transform: translateX(-50%);
+    -ms-transform: translateX(-50%);
+    transform: translateX(-50%);
+    z-index: 999;
 }
 
 .bodycounter {
-    width: 100%;
+    font-family: Brandon Grotesque, josefin-sans, century gothic, century, sans-serif;
+    font-size: 8em;
+    font-size: 16vw;
+    line-height: 1em;
     text-align: center;
-    font-size: 10em;
-    font-size: 20vw;
+    width: 100%;
 }
 
 .anchor {
     margin-top: 50vh;
 }
-
+/*
 .headerimg {}
 
 .navbar {}
-
+*/
 /*
 .circle {
     border-radius: 50%;
@@ -81,55 +172,134 @@
 }
 */
 
-.spacer {
-    Margin-top: 20px;
+.spacerTop {
+    margin-top: 200px;
 }
 
-.sideicon {
-    /*
-    position:fixed;
-    top:100px;
-    width:40%;
-    right:10px;
-*/
+.spacerBot {
+    margin-bottom: 200px;
 }
 
-p.quote {
+.quote {
     font-size: 40px;
 }
 
 .scrollquote {
-    font-size: 3em;
-    font-family: serif;
+    font-family: Brandon Grotesque, josefin-sans, century gothic, century, sans-serif;
+    font-size: 2em;
     font-style: italic
 }
 
-body {
-    padding-top: 50px;
-    background-color: #333136;
-}
-
 h1 {
+    color: #DADBD7;
+    font-family: hacker;
     font-size: 6em;
+    font-size: 8vw;
+    text-align: center;
 }
 
 h2 {
+    color: #DADBD7;
+    font-family: europa, Futura PT, Trebuchet MS, Arial, sans-serif;
     font-size: 3em;
+    font-size: 6vw;
+    font-weight: 600;
+    text-align: center;
 }
 
-p {
-    font-size: 1.3em;
-}
-
-h1,
-h2,
-h3,
 p {
     color: #DADBD7;
+    font-family: freight-text-pro, georgia, serif;
+    font-size: 1.6em;
+    line-height: 2.5em;
 }
 
-h1,
-h2,
+.text::first-letter {
+    color: #FFCD00;
+    font-size: 200%;
+    text-align: justify;
+}
+
+.emphasis {
+    color: #FFCD00;
+    font-size: 150%;
+}
+
 h3 {
+    color: #DADBD7;
     text-align: center;
+}
+/* If the viewport is larger than 600px */
+
+@media (min-width: 600px) {
+    #skip_button {
+        font-size: 3vw;
+    }
+}
+
+@media (max-width: 925px) {
+    .navtext {
+        font-family: europa, futura, tahoma, sans-serif;
+        ;
+        font-size: .9em;
+    }
+}
+
+#endingDiv {
+    margin-top: 48vh;
+}
+
+#newyork {
+    background-image: url("../img/cities/newyork.svg");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: auto;
+    height: 600px;
+}
+
+#chicago {
+    background-image: url("../img/cities/chicago.svg");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: auto;
+    height: 600px;
+}
+
+#sanfrancisco {
+    background-image: url("../img/cities/sanfrancisco.svg");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: auto;
+    height: 600px;
+}
+
+#oakland {
+    background-image: url("../img/cities/oakland.svg");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: auto;
+    height: 600px;
+}
+
+.cityText {
+    font-family: europa, futura, tahoma, sans-serif;
+    font-size: 3vw;
+    line-height: 1.2em;
+    text-align: center;
+}
+
+.cityHead {
+    left: 35%;
+    position: relative;
+    top: 45%;
+    -webkit-transform: translate(-50%);
+    -ms-transform: translate(-50%);
+    transform: translate(-50%);
+}
+
+.cited {
+    font-family: europa, tahoma, sans-serif;
+    font-size: 2.5em;
+    text-align: right;
+        
 }
