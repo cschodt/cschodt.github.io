@@ -180,6 +180,14 @@ body {
     margin-bottom: 200px;
 }
 
+.smallSpacerTop {
+    margin-top: 50px;
+}
+
+.smallSpacerBot {
+    margin-bottom: 50px;
+}
+
 .quote {
     font-size: 40px;
 }
@@ -305,6 +313,9 @@ h3 {
 }
 
 .videothumb {
+<<<<<<< Updated upstream
     /*max-height: 200px;*/
+=======
+>>>>>>> Stashed changes
     width:100%;
 }
