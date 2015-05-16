@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bar Bubble Graph Example</title>
+    <style>
+        .axis text {
+            font-family: Helvetica, Arial, sans-serif;
+            font-size: 20px;
+            fill: #DADBD7;
+            text-anchor: end;
+        }
+        
+        .bubbletext {
+            font-family: Helvetica, Arial, sans-serif;
+            font-size: 34px;
+            font-weight: normal;
+            fill: #0EB2AF;
+            /*
+            stroke: #4D4A51;
+            stroke-width: .5px;
+*/
+        }
+        
+        .diagonal-labels {
+            font-family: Helvetica, Arial, sans-serif;
+            font-size: 20px;
+            fill: white;
+        }
+        
+        .axis path {
+            fill: none;
+            stroke: black;
+            stroke-width: 0.5px;
+            shape-rendering: crispEdges;
+        }
+        
+        .annotation {
+            fill: #DADBD7;
+            font-size: 22px;
+            font-family: futura, "trebuchet ms", sans-serif;
+            font-weight: lighter;
+        }
+        
+        .annotation2 {
+            font-size: 38px;
+            font-family: futura, "trebuchet ms", sans-serif;
+            font-weight: lighter;
+            fill: #0EB2AF;
+            /*
+            stroke: #4D4A51;
+            stroke-width: .5px;
+*/
+        }
+        
+        .stem {
+            stroke: none;
+            fill: #DADBD7;
+        }
+        
+        .textlabel {
+            font-family: Helvetica, Arial, sans-serif;
+            font-size: 14px;
+            text-anchor: middle;
+        }
+        
+        .bubble {
+            fill: #0EB2AF;
+            stroke: #DADBD7;
+            stroke-width: 2px;
+        }
+        
+        .axis {
+            shape-rendering: crispEdges;
+        }
+        
+        .y.axis path {
+            display: none;
+        }
+        
+        .x.axis path {
+            stroke: #4D4A51;
+            stroke-width: 2px;
+        }
+        
+        .axis .minor line {
+            stroke: #DADBD7;
+            opacity: 0.8;
+            stroke-dasharray: 2, 2;
+        }
+    </style>
+</head>
+
+<body>
+
+
+    <script src="../../js/d3.min.js" charset="utf-8"></script>
+    <script>
+        var data =
+
+[
+                {
+                    "Country": "USA",
+                    "CODE": "USA",
+                    "USD": 820.00,
+                    "Days": 5.6
+                },
+                {
+                    "Country": "China",
+                    "CODE": "CHN",
+                    "USD": 981.06,
+                    "Days": 51.9
+                },
+                {
+                    "Country": "Hong Kong",
+                    "CODE": "HKG",
+                    "USD": 824.26,
+                    "Days": 7.8
+                },
+                {
+                    "Country": "Indonesia",
+                    "CODE": "IDN",
+                    "USD": 956.68,
+                    "Days": 99.1
+                },
+                {
+                    "Country": "Japan",
+                    "CODE": "JPN",
+                    "USD": 893.7,
+                    "Days": 8.3
+                },
+                {
+                    "Country": "Korea",
+                    "CODE": "KOR",
+                    "USD": 904.8,
+                    "Days": 12.5
+                },
+                {
+                    "Country": "Malaysia",
+                    "CODE": "MYS",
+                    "USD": 860.28,
+                    "Days": 29.4
+                },
+                {
+                    "Country": "Thailand",
+                    "CODE": "THA",
+                    "USD": 891.39,
+                    "Days": 55.5
+                },
+                {
+                    "Country": "Vietnam",
+                    "CODE": "VNM",
+                    "USD": 964,
+                    "Days": 181.6
+                },
+                {
+                    "Country": "Germany",
+                    "CODE": "DEU",
+                    "USD": 857.6,
+                    "Days": 6.7
+                },
+                {
+                    "Country": "Italy",
+                    "CODE": "ITA",
+                    "USD": 900.62,
+                    "Days": 9.1
+                },
+                {
+                    "Country": "Luxemborg",
+                    "CODE": "LUX",
+                    "USD": 829.34,
+                    "Days": 2.7
+                },
+                {
+                    "Country": "Norway",
+                    "CODE": "NOR",
+                    "USD": 962.7,
+                    "Days": 3.4
+                },
+                {
+                    "Country": "Russia",
+                    "CODE": "RUS",
+                    "USD": 1039.34,
+                    "Days": 25.6
+                },
+                {
+                    "Country": "Turkey",
+                    "CODE": "TUR",
+                    "USD": 1054.38,
+                    "Days": 34.6
+                },
+                {
+                    "Country": "UK",
+                    "CODE": "GBR",
+                    "USD": 921.36,
+                    "Days": 7.9
+                },
+                {
+                    "Country": "UAE",
+                    "CODE": "ARE",
+                    "USD": 816.47,
+                    "Days": 6.8
+                },
+                {
+                    "Country": "Brazil",
+                    "CODE": "BRA",
+                    "USD": 1285.59,
+                    "Days": 41.3
+                },
+                {
+                    "Country": "Canada",
+                    "CODE": "CAN",
+                    "USD": 789.89,
+                    "Days": 5.5
+                },
+                {
+                    "Country": "Mexico",
+                    "CODE": "MEX",
+                    "USD": 904.395,
+                    "Days": 31.6
+                }
+]
+
+        //    [
+        //	{name: "Apples", value: 20},
+        //	{name: "Oranges", value: 8},
+        //	{name: "Cherries", value: 18},
+        //	{name: "Bananas", value: 29},
+        //	{name: "Peaches", value: 18},
+        //	{name: "Pears", value: 15},
+        //	{name: "Avocados", value: 20},
+        //	{name: "Watermelons", value: 10},
+        //];
+
+        //optionally sort data
+        data = data.sort(function (a, b) {
+            return a.Days - b.Days;
+        });
+
+        var margin = {
+                top: 10,
+                right: 25,
+                bottom: 10,
+                left: 60
+            },
+            width = 1200,
+            height = 700;
+
+        var svg = d3.select("body")
+            .append("svg")
+            //    .attr("width", width)
+            //    .attr("height", height)
+            //     change for responsive
+            .attr("width", "100%")
+            .attr("height", "100%")
+            .attr("viewBox", "0 0 " + width + " " + height);
+
+        var yScale = d3.scale.linear()
+            .range([height - margin.top - margin.bottom, 30]);
+
+        var bScale = d3.scale.linear()
+            .range([2, width / (data.length)]);
+
+        var xScale = d3.scale.ordinal()
+            .rangeRoundBands([0, width - margin.right - margin.left], .1);
+
+        var xAxis = d3.svg.axis()
+            .scale(xScale)
+            .orient("bottom")
+            .outerTickSize(0)
+            .tickValues([]); //empty for no labels
+
+        var yAxis = d3.svg.axis()
+            .scale(yScale)
+            .orient("left")
+            .tickSize(-width - margin.left);
+
+        //yscale's domain is from zero to the maximum "name" in your data
+        yScale.domain([d3.min(data, function (d) {
+            return d["USD"];
+        }) - 40, d3.max(data, function (d) {
+            return d["USD"];
+        })]);
+
+        //xscale is unique values in your data ("name", since they are all different)
+        xScale.domain(data.map(function (d) {
+            return d["Country"];
+        }));
+
+        //for the bubble scale
+        bScale.domain([0, d3.max(data, function (d) {
+            return d["Days"];
+        })]);
+
+
+        //adding y axis to the left of the chart
+        svg.append("g")
+            .attr("class", "y axis")
+            .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+            .call(yAxis)
+            .selectAll("g")
+            .filter(function (d) {
+                return d;
+            })
+            .classed("minor", true);
+
+        //adding x axis to the bottom of chart
+        svg.append("g")
+            .attr("class", "x axis")
+            .attr("transform", "translate(" + margin.left + "," + (height - margin.bottom) + ")")
+            .call(xAxis);
+
+        var chart = svg.append("g")
+            .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+            .selectAll(".stem")
+            .data(data)
+            .enter();
+
+        //append each stem
+        chart.append("rect")
+            .attr("class", "stem")
+            .attr("x", function (d) {
+                return xScale(d["Country"]) + (xScale.rangeBand() / 2);
+            })
+            .attr("y", function (d) {
+                return yScale(d["USD"]);
+            })
+            .attr("height", function (d) {
+                return height - margin.top - margin.bottom - yScale(d["USD"]);
+            })
+            .attr("width", 2);
+
+        //append the circles
+        //chart.append("circle")
+        //	.attr("class", "bubble")
+        //	.attr("cx", function(d){ return xScale(d["Country"]) + (xScale.rangeBand() / 2); })
+        //	.attr("cy", function(d){ return yScale(d["USD"]); })
+        //	.attr("r", function(d){ return bScale(d["Days"]); });
+
+        //append the phones
+        chart.append("image")
+            .attr("xlink:href", "phone.svg")
+            .attr("x", function (d) {
+                return xScale(d["Country"]) + (xScale.rangeBand() / 2) - (bScale(d["Days"])) + 1;
+            })
+            .attr("y", function (d) {
+                return yScale(d["USD"]);
+            })
+            .attr("width", function (d) {
+                return bScale(d["Days"]) * 2;
+            })
+            .attr("height", function (d) {
+                return (bScale(d["Days"]) * 2) * 2;
+            })
+            //    .attr("transform", "scale(1.1)");
+
+
+
+
+        //append text to the circles
+        chart.append("text")
+            .attr("class", "bubbletext")
+            .attr("x", function (d) {
+                return xScale(d["Country"]) + (xScale.rangeBand() / 2);
+            })
+            .attr("y", function (d) {
+                return yScale(d["USD"]) - 10;
+            }) //change number  to adjust verticle text inside bubble
+            .attr("text-anchor", "middle")
+            .text(function (d) {
+                return Math.round(d["Days"]);
+            });
+
+        //append diagnol text labels to circles
+        chart.append("text")
+            .attr("class", "diagonal-labels")
+            .attr("x", function (d) {
+                return xScale(d["Country"]) + (xScale.rangeBand() / 2);
+            })
+            .attr("y", function (d) {
+                return height - margin.bottom;
+            }) //yScale(d["USD"]) + 6
+            .attr("text-anchor", "start")
+            .attr("transform", function (d) {
+                return "translate(-10, -12)rotate(-90 " + (xScale(d["Country"]) + (xScale.rangeBand() / 2)) + " " + (height - margin.bottom) + ")";
+            })
+            .text(function (d) {
+                return d["Country"];
+            });
+
+        svg.append("text")
+            .attr("class", "annotation")
+            .attr("x", 75)
+            .attr("y", 60)
+            .attr("font-size", 26)
+            .attr("text-anchor", "left")
+            .text("The height of the line is the price (USD) of a legal iPhone 6 64GB in that country");
+
+
+        svg.append("text")
+            .attr("class", "annotation")
+            .attr("x", 75)
+            .attr("y", 200)
+            .attr("text-anchor", "left")
+            .text("The number above each line is how many")
+
+
+        svg.append("text")
+            .attr("class", "annotation2")
+            .attr("x", 225)
+            .attr("y", 238)
+            .attr("text-anchor", "left")
+            .text("days")
+
+        svg.append("text")
+            .attr("class", "annotation")
+            .attr("x", 75)
+            .attr("y", 260)
+            .attr("text-anchor", "left")
+            .text("an average person would need to work");
+
+        svg.append("text")
+            .attr("class", "annotation")
+            .attr("x", 75)
+            .attr("y", 290)
+            .attr("text-anchor", "left")
+            .text("to afford an iPhone in their country");
+
+
+//        svg.append("text")
+//            .attr("class", "annotation")
+//            .attr("x", 550)
+//            .attr("y", 170)
+//            .attr("text-anchor", "right")
+//            .text("At $1285, Brazil has the most");
+//
+//        svg.append("text")
+//            .attr("class", "annotation")
+//            .attr("x", 550)
+//            .attr("y", 195)
+//            .attr("text-anchor", "right")
+//            .text("expensive iPhones in the world,");
+//
+//        svg.append("text")
+//            .attr("class", "annotation")
+//            .attr("x", 550)
+//            .attr("y", 220)
+//            .attr("text-anchor", "right")
+//            .text("making it a popular destination");
+//
+//        svg.append("text")
+//            .attr("class", "annotation")
+//            .attr("x", 550)
+//            .attr("y", 245)
+//            .attr("text-anchor", "right")
+//            .text("to sell stolen goods");
+//
+//
+//        svg.append("line")
+//            .attr("class", "line")
+//            .attr("x1", 800)
+//            .attr("y1", 150)
+//            .attr("x2", 900)
+//            .attr("y2", 100)
+//            .style("stroke", "#0EB2AF")
+//            .style("stroke-width", 4)
+//            .style("stroke-linecap", "round")
+//
+//
+//        svg.append("text")
+//            .attr("class", "annotation")
+//            .attr("x", 930)
+//            .attr("y", 100)
+//            .attr("text-anchor", "right")
+//            .text("All these countries have");
+//
+//
+//        svg.append("text")
+//            .attr("class", "annotation")
+//            .attr("x", 930)
+//            .attr("y", 125)
+//            .attr("text-anchor", "right")
+//            .text("low averages wages, but");
+//
+//        svg.append("text")
+//            .attr("class", "annotation")
+//            .attr("x", 930)
+//            .attr("y", 150)
+//            .attr("text-anchor", "right")
+//            .text("iPhones are desireable");
+//
+//        svg.append("text")
+//            .attr("class", "annotation")
+//            .attr("x", 930)
+//            .attr("y", 175)
+//            .attr("text-anchor", "right")
+//            .text("and not widely available.");
+//
+//        svg.append("text")
+//            .attr("class", "annotation")
+//            .attr("x", 930)
+//            .attr("y", 220)
+//            .attr("text-anchor", "right")
+//            .text("When the iPhone 5s and 6");
+//
+//        svg.append("text")
+//            .attr("class", "annotation")
+//            .attr("x", 930)
+//            .attr("y", 245)
+//            .attr("text-anchor", "right")
+//            .text("came out, phones were");
+//
+//        svg.append("text")
+//            .attr("class", "annotation")
+//            .attr("x", 930)
+//            .attr("y", 270)
+//            .attr("text-anchor", "right")
+//            .text("being sold for as much as");
+//
+//        svg.append("text")
+//            .attr("class", "annotation")
+//            .attr("x", 930)
+//            .attr("y", 295)
+//            .attr("text-anchor", "right")
+//            .text("$3000 on the street.");
+//
+//
+//        svg.append("line")
+//            .attr("class", "line")
+//            .attr("x1", 960)
+//            .attr("y1", 315)
+//            .attr("x2", 1050)
+//            .attr("y2", 405)
+//            .style("stroke", "#0EB2AF")
+//            .style("stroke-width", 4)
+//            .style("stroke-linecap", "round")
+
+
+
+        //            .attr("stroke-width", 100)
+        //            .attr("stroke", "0EB2AF");
+
+
+
+
+        //    	.attr("transform", function(d){ return "rotate(-90 " +  Number(xScale(d["Country"]) + (xScale.rangeBand() / 2)-22) + " " + yScale(d["USD"]+(20)) + ")"; })
+        //transform="rotate(-40 100 200)"
+
+        //<image xlink:href="firefox.jpg" x="0" y="0" height="50px" width="50px"/>
+        //chart.append("image")
+        //    .attr("xlink:href", "phone.svg")
+        //    .attr("width", 300)
+        //    .attr("height", 500)
+        //    .attr("x", 100)
+        //    .attr("y", 100);
+
+        //    chart.append("circle")
+        //        .attr("cx", 400)
+        //        .attr("cy", 300)
+        //        .attr("r", 3)
+        //        .attr("fill", "black");
+        //    
+        //    
+        //    chart.append("text")
+        //        .attr("x", 400)
+        //        .attr("y", 300)
+        //        .attr("text-anchor", "middle")
+        //        .attr("transform", "rotate(-90 400 300)")
+        //        .text("Hello World");
+    </script>
+</body>
+
+</html>
