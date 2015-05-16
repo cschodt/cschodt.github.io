@@ -110,10 +110,9 @@
                 <video  src="/vid/header.mp4" autoplay loop style="width:100%; margin:auto; " ></video>
                 </div>
 -->
-                    <h2 id="subtitle">The International Black Market of Stolen Cell Phones</h2>
+                <h2 id="subtitle">The International Black Market of Stolen Cell Phones</h2>
                 <p class="text-center menutext" style="line-height:.5em;">scroll down to continue</p>
-                <p class="text-center" style="font-size:36px, line-height:.5em;"><span class="glyphicon glyphicon-menu-down"></span>
-                </p>
+                <p class="text-center" style="font-size:36px, line-height:.5em;"><span class="glyphicon glyphicon-menu-down"></span></p>
 
 
             </div>
@@ -140,8 +139,10 @@
 
         <div class="row">
             <div class="header spacerBot" id="victims" data-bottom-top="opacity:0;" data-center="opacity:1;" data-center-bottom="opacity:0">
-<!--                <h1 class="headerTitle text-nowrap">THE VICTIMS</h1>-->
-                <video src="vid/victimLoop.mp4" class="headervid" autoplay loop></video>
+                <video class="headervid" loop>
+                    <source src="vid/victimLoop.mp4" type="video/mp4">
+                    <source src="vid/victimLoop.ogv" type="video/ogg">
+                </video>
             </div>
         </div>
 
@@ -215,8 +216,6 @@
         <div class="row">
             <div class="col-xs-10 col-xs-offset-1">
                 <h2>Oakland Crime</h2>
-
-
                 <iframe class="SVG" src="/viz/oaklandcrime/oaklandLine.html" scrolling="no" frameborder="0" allowfullscreen></iframe>
             </div>
         </div>
@@ -237,7 +236,10 @@
         <div class="row spacerTop">
             <div class="header" id="traffickers" data-bottom-top="opacity:0;" data-center="opacity:1;" data-center-bottom="opacity:0">
                 <h1 class="headerTitle text-nowrap">THe TRAFFICKERS</h1>
-                <video src="vid/LoopingAirport.mp4" class="headervid" autoplay loop></video>
+                <video class="headervid" loop>
+                    <source src="vid/LoopingAirport.mp4" type="video/mp4">
+                    <source src="vid/LoopingAirport.ogv" type="video/ogg">
+                </video>
             </div>
         </div>
 
@@ -324,7 +326,10 @@
             <div class="header" id="consumers" data-bottom-top="opacity:0;" data-center="opacity:1;" data-center-bottom="opacity:0">
 
                 <h1 class="headerTitle text-nowrap">The CONSUMERS</h1>
-                <video src="vid/LoopingOverpass.mp4" class="headervid center" autoplay loop></video>
+                <video class="headervid center" loop>
+                    <source src="vid/LoopingOverpass.mp4" type="video/mp4">
+                    <source src="vid/LoopingOverpass.ogv" type="video/ogg">
+                </video>
             </div>
 
         </div>
@@ -392,7 +397,10 @@
 
                 <h1 class="headerTitle text-nowrap">The KILL SWITCH</h1>
                 <div>
-                    <video src="vid/loopingPhones.mp4" class=" headervid center" autoplay loop></video>
+                    <video class="headervid center" loop>
+                        <source src="vid/loopingPhones.mp4" type="video/mp4">
+                        <source src="vid/loopingPhones.ogv" type="video/ogg">
+                    </video>
                 </div>
             </div>
         </div>
@@ -540,6 +548,36 @@
             //                $("#intro-modal").modal();
             //
             //            })
+            
+            
+            //ONLY PLAY BACKGROUND VIDEOS WHEN PAGE IS SCROLLED TO THAT SECTION
+            var backgroundVideoData = [],//load the positions of each background video at bottom.
+                windowHeight = $(window).height(),
+                playing = false;
+            $(window).on("scroll", function(){
+                
+                var y = 0;
+                
+                for(var i=0; i < backgroundVideoData.length; i++){
+                    if($(window).scrollTop() + windowHeight > backgroundVideoData[i].top){
+                        y = i;
+                    }
+                }
+                
+                if($(window).scrollTop() > backgroundVideoData[y].top + windowHeight){
+                    if(playing){
+                        backgroundVideoData[y].id[0].pause();
+                        playing = false;
+                        console.log("paused");
+                    }
+                } else {
+                    if(!playing){
+                        backgroundVideoData[y].id[0].play();
+                        playing = true;
+                        console.log("playing");
+                    }
+                }
+            });
 
 
             //FOUC 
@@ -681,6 +719,11 @@
                     easing: 'sqrt',
 
                 });
+                
+                $("video").each(function(i, elm){
+                    backgroundVideoData.push({id: $(this), top: $(this).offset().top});
+                });
+                windowHeight = $(window).height();
             })
 
 
