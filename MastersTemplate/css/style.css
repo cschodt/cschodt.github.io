@@ -303,3 +303,7 @@ h3 {
     text-align: right;
         
 }
+
+.videothumb {
+    max-height: 300px;
+}
