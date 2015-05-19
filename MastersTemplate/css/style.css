@@ -88,6 +88,7 @@ body {
 .menutext {
     font-family: europa, futura, tahoma, sans-serif;
     font-size: 1.2em;
+    text-align: center;
 }
 
 .navtext {
