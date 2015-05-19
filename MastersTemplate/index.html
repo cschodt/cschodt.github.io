@@ -585,13 +585,26 @@ See how the growing trend has coincided with overall robberies in the city.</p>
     <script src="js/jquery.vimeo.api.min.js"></script>
 
     <script>
+        
+        //Set the cookie Function
+        function setCookie(daysToExpire, name){
+            var d = new Date();
+            d.setTime(d.getTime() + 3600000 * 24 * daysToExpire);
+            document.cookie = escape(name) + "=true;expires=" + d.toGMTString() + ";path=/";
+        }
+
+        //read the cookie
+        function readCookie(name){
+            var m = new RegExp(name, 'gi');
+            return document.cookie.match(m) ? true : false;
+        }
+        
         jQuery(document).ready(function ($) {
+            
 
 
 
             //phone counter
-
-
             var numOfPhonesStolen = 0
             var counter = setInterval(function () {
                 numOfPhonesStolen++;
@@ -637,10 +650,19 @@ See how the growing trend has coincided with overall robberies in the city.</p>
                 }
             });
 
+            
+            //if they've been here before
+            if(readCookie("rekitted")){
+                $("#trailer, #skip_button").remove();
+            } else {
+                $("#trailer").vimeo("play");
+                setCookie(3, "rekitted");
+            }
+            
 
             //FOUC 
             //play trailer as soon as page loads
-            $("#trailer").vimeo("play");
+            
 
             $(".fullscreen")
                 .width($(window).width())
