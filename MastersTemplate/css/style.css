@@ -44,8 +44,8 @@ body {
 }
 
 #counterDiv {
-    margin-bottom: 30vh;
-    margin-top: 48vh;
+    margin-bottom: 60px;
+    margin-top: 60px;
 }
 
 .counterTitle {
@@ -59,7 +59,6 @@ body {
 #mainTitle {
     font-size: 10em;
     font-size: 12vw;
-    margin-bottom: 2vh;
 }
 
 #subtitle {
@@ -67,7 +66,7 @@ body {
     font-family: freight-sans-pro, Verdana, serif;
     font-size: 3em;
     font-size: 3.5vw;
-    margin-bottom: 16vh;
+    margin-bottom: 25px;
 }
 
 #trailer {
@@ -249,7 +248,6 @@ h3 {
 @media (max-width: 925px) {
     .navtext {
         font-family: europa, futura, tahoma, sans-serif;
-        ;
         font-size: .9em;
     }
 }
@@ -314,9 +312,6 @@ h3 {
 }
 
 .videothumb {
-<<<<<<< Updated upstream
     /*max-height: 200px;*/
-=======
->>>>>>> Stashed changes
     width:100%;
 }

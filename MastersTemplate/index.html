@@ -144,6 +144,7 @@
                 <video class="headervid" loop>
                     <source src="vid/victimLoop.mp4" type="video/mp4">
                     <source src="vid/victimLoop.ogv" type="video/ogg">
+                    <img src="vid/victimLoop.png">
                 </video>
             </div>
         </div>
@@ -263,6 +264,7 @@ See how the growing trend has coincided with overall robberies in the city.</p>
                 <video class="headervid" loop>
                     <source src="vid/LoopingAirport.mp4" type="video/mp4">
                     <source src="vid/LoopingAirport.ogv" type="video/ogg">
+                    <img src="vid/victimLoop.png">
                 </video>
             </div>
         </div>
@@ -361,6 +363,7 @@ See how the growing trend has coincided with overall robberies in the city.</p>
                 <video class="headervid center" loop>
                     <source src="vid/LoopingOverpass.mp4" type="video/mp4">
                     <source src="vid/LoopingOverpass.ogv" type="video/ogg">
+                    <img src="vid/victimLoop.png">
                 </video>
             </div>
 
@@ -442,6 +445,7 @@ See how the growing trend has coincided with overall robberies in the city.</p>
                     <video class="headervid center" loop>
                         <source src="vid/loopingPhones.mp4" type="video/mp4">
                         <source src="vid/loopingPhones.ogv" type="video/ogg">
+                        <img src="vid/victimLoop.png">
                     </video>
                 </div>
             </div>
@@ -788,6 +792,17 @@ See how the growing trend has coincided with overall robberies in the city.</p>
                 $('.scrollTop a').scrollTop();
             }
             scrollAnchor();
+            
+            
+            /* replace video with static image on mobile devices */
+              if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+                $("video > img").each(function(elm, i){
+                    
+                    $(this).parent().replaceWith($(this));
+                    
+                })
+              
+              }
 
 
 
