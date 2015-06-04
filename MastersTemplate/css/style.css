@@ -254,6 +254,21 @@ h3 {
     }
 }
 
+
+@media (max-width:768px) {
+
+
+}
+
+@media (min-width:1400px) {
+
+
+}
+
+
+
+
+
 #endingDiv {
     margin-top: 48vh;
 }
