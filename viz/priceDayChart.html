@@ -394,11 +394,19 @@
         svg.append("text")
             .attr("class", "annotation")
             .attr("x", 75)
-            .attr("y", 60)
+            .attr("y", 75)
             .attr("font-size", 26)
             .attr("text-anchor", "left")
-            .text("The height of the line is the price (USD) of a legal iPhone 6 64GB in that country");
+            .text("The height of the line is the price (USD)");
 
+        
+        svg.append("text")
+            .attr("class", "annotation")
+            .attr("x", 75)
+            .attr("y", 105)
+            .attr("font-size", 26)
+            .attr("text-anchor", "left")
+            .text(" of a legal iPhone 6 64GB in that country");
 
         svg.append("text")
             .attr("class", "annotation")
@@ -410,22 +418,22 @@
 
         svg.append("text")
             .attr("class", "annotation2")
-            .attr("x", 225)
-            .attr("y", 238)
+            .attr("x", 495)
+            .attr("y", 200)
             .attr("text-anchor", "left")
             .text("days")
 
         svg.append("text")
             .attr("class", "annotation")
             .attr("x", 75)
-            .attr("y", 260)
+            .attr("y", 230)
             .attr("text-anchor", "left")
             .text("an average person would need to work");
 
         svg.append("text")
             .attr("class", "annotation")
             .attr("x", 75)
-            .attr("y", 290)
+            .attr("y", 260)
             .attr("text-anchor", "left")
             .text("to afford an iPhone in their country");
 
